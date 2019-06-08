@@ -2,33 +2,32 @@ package poster.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import poster.entity.RoleEntity;
 import poster.entity.UserEntity;
-import poster.repository.UserRepository;
+import poster.service.UserService;
 
-import java.util.Arrays;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
-@PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public String userList(Model model) {
-        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("users", userService.findAll());
 
         return "userList";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("{userEntity}")
     public String userEditForm(@PathVariable UserEntity userEntity, Model model) {
         model.addAttribute("user", userEntity);
@@ -37,29 +36,35 @@ public class UserController {
         return "userEdit";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public String userSave(
             @RequestParam String username,
             @RequestParam Map<String, String> form,
             @RequestParam("userId") UserEntity userEntity
     ) {
-        userEntity.setUsername(username);
-
-        Set<String> roles = Arrays.stream(RoleEntity.values())
-                .map(RoleEntity::name)
-                .collect(Collectors.toSet());
-
-        userEntity.getRoles().clear();
-
-        for (String key : form.keySet()) {
-            if (roles.contains(key)) {
-                userEntity.getRoles().add(RoleEntity.valueOf(key));
-            }
-        }
-
-        userRepository.save(userEntity);
+        userService.saveUser(userEntity, username, form);
 
         return "redirect:/user";
+    }
+
+    @GetMapping("profile")
+    public String getProfile(@AuthenticationPrincipal UserEntity userEntity, Model model) {
+        model.addAttribute("username", userEntity.getUsername());
+        model.addAttribute("email", userEntity.getEmail());
+
+        return "profile";
+    }
+
+    @PostMapping("profile")
+    public String updateProfile(
+            @AuthenticationPrincipal UserEntity userEntity,
+            @RequestParam String email,
+            @RequestParam String password
+    ) {
+        userService.updateProfile(userEntity, email, password);
+
+        return "redirect:/user/profile";
     }
 
 }

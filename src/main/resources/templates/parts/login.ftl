@@ -9,6 +9,12 @@
             <label>Пароль</label>
             <input type="password" class="form-control col-3" name="password" placeholder="Введите ваш пароль"/>
         </div>
+        <#if isRegisterForm>
+            <div class="form-group">
+                <label>E-Mail</label>
+                <input type="email" class="form-control col-8" name="email" placeholder="user@mail"/>
+            </div>
+        </#if>
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         <button type="submit" class="btn btn-primary">
             <#if isRegisterForm>Зарегистрироваться<#else>Войти</#if>

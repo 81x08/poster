@@ -13,13 +13,17 @@ public class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String username;
 
     private String password;
 
     private boolean active;
+
+    private String email;
+
+    private String activationCode;
 
     @ElementCollection(targetClass = RoleEntity.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -30,11 +34,11 @@ public class UserEntity implements UserDetails {
         return roles.contains(RoleEntity.ADMIN);
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -94,4 +98,21 @@ public class UserEntity implements UserDetails {
     public void setRoles(Set<RoleEntity> roles) {
         this.roles = roles;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
+
 }

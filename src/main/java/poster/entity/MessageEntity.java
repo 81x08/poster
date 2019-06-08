@@ -3,11 +3,12 @@ package poster.entity;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "message")
 public class MessageEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @Column(name = "text")
     private String text;
@@ -30,11 +31,11 @@ public class MessageEntity {
         this.author = userEntity;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

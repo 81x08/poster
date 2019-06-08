@@ -5,7 +5,7 @@ import poster.entity.MessageEntity;
 
 import java.util.List;
 
-public interface MessageRepository extends CrudRepository<MessageEntity, Integer> {
+public interface MessageRepository extends CrudRepository<MessageEntity, Long> {
 
     List<MessageEntity> findByTag(String tag);
 
