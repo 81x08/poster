@@ -14,14 +14,26 @@
     + Пост
 </button>
 
-<div class="collapse" id="collapseForm">
+<div class="collapse <#if message??>show</#if>" id="collapseForm">
     <div class="form-group">
         <form method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <input type="text" class="form-control col-8" name="text" placeholder="Введите сообщение"/>
+                <input type="text" class="form-control ${(textError??)?string('is-invalid', '')} col-8"
+                       value="<#if message??>${message.text}</#if>" name="text" placeholder="Введите сообщение"/>
+                <#if textError??>
+                    <div class="invalid-feedback">
+                        ${textError}
+                    </div>
+                </#if>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control col-8" name="tag" placeholder="Введите сообщение"/>
+                <input type="text" class="form-control ${(tagError??)?string('is-invalid', '')} col-8"
+                       value="<#if message??>${message.tag}</#if>" name="tag" placeholder="Введите тэг"/>
+                <#if tagError??>
+                    <div class="invalid-feedback">
+                        ${tagError}
+                    </div>
+                </#if>
             </div>
             <div class="custom-file">
                 <input type="file" class="custom-file-input" id="customFile" name="file">

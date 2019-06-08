@@ -1,6 +1,9 @@
 package poster.entity;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "message")
@@ -10,9 +13,13 @@ public class MessageEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank(message = "Текст поста не должен быть пустым")
+    @Length(max = 2048, message = "Сообщение слишком длинное (2 КБ)")
     @Column(name = "text")
     private String text;
 
+    @NotBlank(message = "Для поста требуется как минимум 1 тэг")
+    @Length(max = 255, message = "Слишком много тэгов (255 символов)")
     @Column(name = "tag")
     private String tag;
 
