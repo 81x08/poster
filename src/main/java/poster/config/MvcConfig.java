@@ -21,6 +21,7 @@ public class MvcConfig implements WebMvcConfigurer {
         return new RestTemplate();
     }
 
+    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
     }
@@ -33,4 +34,5 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
     }
+
 }
