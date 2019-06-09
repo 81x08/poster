@@ -129,4 +129,16 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public void subscribe(UserEntity sessionUserEntity, UserEntity userEntity) {
+        userEntity.getSubscribers().add(sessionUserEntity);
+
+        userRepository.save(userEntity);
+    }
+
+    public void unsubscribe(UserEntity sessionUserEntity, UserEntity userEntity) {
+        userEntity.getSubscribers().remove(sessionUserEntity);
+
+        userRepository.save(userEntity);
+    }
+
 }

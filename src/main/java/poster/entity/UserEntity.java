@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -41,6 +42,22 @@ public class UserEntity implements UserDetails {
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<MessageEntity> messages;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_subscriptions",
+            joinColumns = { @JoinColumn(name = "channel_id") },
+            inverseJoinColumns = { @JoinColumn(name = "subscriber_id") }
+    )
+    private Set<UserEntity> subscribers = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_subscriptions",
+            joinColumns = { @JoinColumn(name = "subscriber_id") },
+            inverseJoinColumns = { @JoinColumn(name = "channel_id") }
+    )
+    private Set<UserEntity> subscriptions = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
@@ -147,4 +164,21 @@ public class UserEntity implements UserDetails {
     public void setMessages(Set<MessageEntity> messages) {
         this.messages = messages;
     }
+
+    public Set<UserEntity> getSubscribers() {
+        return subscribers;
+    }
+
+    public void setSubscribers(Set<UserEntity> subscribers) {
+        this.subscribers = subscribers;
+    }
+
+    public Set<UserEntity> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(Set<UserEntity> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+
 }
