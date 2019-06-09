@@ -69,7 +69,13 @@ public class MainController {
             model.mergeAttributes(errorsMap);
             model.addAttribute("message", messageEntity);
         } else {
-            saveFile(messageEntity, file);
+            String fileName = saveFile(file);
+
+            if (!fileName.isEmpty()) {
+                messageEntity.setFileName(fileName);
+            }
+
+            messageRepository.save(messageEntity);
         }
 
         Iterable<MessageEntity> messages = messageRepository.findAll();
@@ -117,7 +123,11 @@ public class MainController {
                 messageEntity.setTag(tag);
             }
 
-            saveFile(messageEntity, file);
+            String fileName = saveFile(file);
+
+            if (!fileName.isEmpty()) {
+                messageEntity.setFileName(fileName);
+            }
 
             messageRepository.save(messageEntity);
         }
@@ -125,7 +135,7 @@ public class MainController {
         return "redirect:/user-messages/" + currentUserId;
     }
 
-    private void saveFile(MessageEntity messageEntity, MultipartFile file) throws IOException {
+    private String saveFile(MultipartFile file) throws IOException {
         if (file != null && !file.getOriginalFilename().isEmpty()) {
             File uploadDir = new File(uploadPath);
 
@@ -138,8 +148,10 @@ public class MainController {
 
             file.transferTo(new File(uploadPath + "/" + resultFileName));
 
-            messageEntity.setFileName(resultFileName);
+            return resultFileName;
         }
+
+        return "";
     }
 
 }
