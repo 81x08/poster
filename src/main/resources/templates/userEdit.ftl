@@ -3,7 +3,7 @@
 <@c.page>
 User editor
 <form action="/user" method="post">
-    <input type="text" value="${userEntity.username}" name="username">
+    <input type="text" value="${userEntity.username}" name="username"/>
 
     <#list roles as role>
     <div>
@@ -11,8 +11,8 @@ User editor
     </div>
     </#list>
 
-    <input type="hidden" value="${userEntity.id}" name="userId">
-    <input type="hidden" value="${_csrf.token}" name="_csrf">
+    <input type="hidden" value="${userEntity.id}" name="userId"/>
+    <input type="hidden" value="${_csrf.token}" name="_csrf"/>
 
     <button type="submit">Save</button>
 </form>

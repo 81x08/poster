@@ -5,7 +5,7 @@
         <div class="input-group-prepend">
             <div class="input-group-text">Поиск</div>
         </div>
-        <input type="text" class="form-control col-6" name="tag" value="${tag?ifExists}" placeholder="Введите тэг">
+        <input type="text" class="form-control col-6" name="tag" value="${tag?ifExists}" placeholder="Введите тэг"/>
         <button type="submit" class="btn btn-primary ml-3">Найти</button>
     </div>
 </form>

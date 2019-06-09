@@ -23,7 +23,7 @@
                 </#if>
             </div>
             <div class="custom-file">
-                <input type="file" class="custom-file-input" id="customFile" name="file">
+                <input type="file" class="custom-file-input" id="customFile" name="file"/>
                 <label class="custom-file-label col-8" for="customFile">Желаемый файл</label>
             </div>
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
